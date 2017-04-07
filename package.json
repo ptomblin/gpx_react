@@ -1,0 +1,33 @@
+{
+  "name": "copilot_react",
+  "version": "0.0.1",
+  "description": "Re-implementing my navaid.com website in React",
+  "main": "webpack.config.js",
+  "dependencies": {
+    "axios": "latest",
+    "babel-core": "latest",
+    "babel-loader": "latest",
+    "babel-plugin-add-module-exports": "latest",
+    "babel-plugin-react-html-attrs": "latest",
+    "babel-plugin-transform-class-properties": "latest",
+    "babel-plugin-transform-decorators-legacy": "latest",
+    "babel-preset-es2015": "latest",
+    "babel-preset-react": "latest",
+    "babel-preset-stage-0": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-redux": "latest",
+    "redux": "latest",
+    "redux-logger": "latest",
+    "redux-promise-middleware": "latest",
+    "redux-thunk": "latest",
+    "webpack": "latest",
+    "webpack-dev-server": "latest"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "dev": "webpack-dev-server --content-base src --inline --hot"
+  },
+  "author": "",
+  "license": "ISC"
+}
