@@ -1,3 +1,24 @@
+body {
+	color: #333;
+}
+.panel-default > .panel-heading {
+	background-color: lightblue;
+	cursor: pointer;
+}
+.panel-default  .panel-title:before {
+	content: '';
+	display: inline-block;
+	position: relative;
+	left: 3px;
+	border: 6px solid transparent;
+	border-left-color: #0aa;
+}
+.panel-default.active  .panel-title:before {
+	left: 0;
+	top: 3px;
+	border-color: #0aa transparent transparent;
+}
+
 .row-striped:nth-of-type(odd) {
 	background-color: #efefef;
 }

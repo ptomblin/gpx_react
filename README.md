@@ -11,7 +11,7 @@ reasons to choose React.
  * Replace the existing website
 
 ## Running.
-I've left some React stuff that I copied from a tutorial. So to run it, you
+This uses React and React-Redux. So to run it, you
 may need to do
 ```
     npm install

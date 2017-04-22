@@ -14,6 +14,7 @@
     "babel-preset-es2015": "latest",
     "babel-preset-react": "latest",
     "babel-preset-stage-0": "latest",
+    "dateformat": "latest",
     "react": "latest",
     "react-dom": "latest",
     "react-redux": "latest",
