@@ -7,7 +7,7 @@ import {updateMaps, resetMaps, addMap, removeMap} from "../actions/sessionAction
 export class ChartContainerPanel extends React.Component {
 	constructor(props) {
 		super(props)
-		this.prefix = "map2"
+		this.prefix = "map"
 	}
 	render() {
 		return <div

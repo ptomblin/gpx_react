@@ -7,7 +7,7 @@ import {updateAirports, resetAirports, addAirport, removeAirport} from "../actio
 export class AirportContainerPanel extends React.Component {
 	constructor(props) {
 		super(props)
-		this.prefix = "airport2"
+		this.prefix = "airport"
 	}
 	render() {
 		return <div

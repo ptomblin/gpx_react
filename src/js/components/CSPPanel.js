@@ -10,7 +10,7 @@ import {clearCountries, addCountry, removeCountry,
 export class CspContainerPanel extends React.Component {
 	constructor(props) {
 		super(props)
-		this.prefix = "csp2"
+		this.prefix = "csp"
 	}
 	render() {
 		return <div
@@ -333,7 +333,7 @@ class StateCheck extends React.Component {
 		let is_checked = this.props.sel_states.has(this.state.code)
 		let state_name = this.state.name
 		if (this.state.code) {
-			state_name = "(" + this.state.code + ") - " + state_name
+			state_name = this.state.code + " - " + state_name
 		}
 		return <td>
 			<div class="checkbox">
@@ -447,7 +447,7 @@ class ProvinceCheck extends React.Component {
 		let is_checked = this.props.sel_provs.has(this.province.code)
 		let province_name = this.province.name
 		if (this.province.code) {
-			province_name = "(" + this.province.code + ") - " + province_name
+			province_name = this.province.code + " - " + province_name
 		}
 		return <td>
 			<div class="checkbox">

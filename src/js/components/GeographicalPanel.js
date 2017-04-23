@@ -7,7 +7,7 @@ import {updateLatLong} from "../actions/sessionActions"
 export class GeographicalContainerPanel extends React.Component {
 	constructor(props) {
 		super(props)
-		this.prefix = "geographic2Area"
+		this.prefix = "geographicArea"
 	}
 	render() {
 		return <div

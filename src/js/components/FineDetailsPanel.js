@@ -7,7 +7,7 @@ import {updateFineDetails, resetFineDetails} from "../actions/sessionActions"
 export class FineDetailsContainerPanel extends React.Component {
 	constructor(props) {
 		super(props)
-		this.prefix = "fine2Details"
+		this.prefix = "fineDetails"
 	}
 	render() {
 		return <div

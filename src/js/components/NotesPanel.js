@@ -16,7 +16,7 @@ const all_notes = [
 export class NoteContainerPanel extends React.Component {
 	constructor(props) {
 		super(props)
-		this.prefix = "note2"
+		this.prefix = "note"
 	}
 	render() {
 		return <div

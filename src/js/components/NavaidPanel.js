@@ -7,7 +7,7 @@ import {updateNavaids, resetNavaids, addNavaid, removeNavaid} from "../actions/s
 export class NavaidContainerPanel extends React.Component {
 	constructor(props) {
 		super(props)
-		this.prefix = "navaid2"
+		this.prefix = "navaid"
 	}
 	render() {
 		return <div
