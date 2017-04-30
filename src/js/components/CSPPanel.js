@@ -139,7 +139,9 @@ class CountryPanel extends React.Component {
 	}
 
 	render() {
-		let country_keys = Object.keys(this.props.countries).sort()
+		let country_keys = Object.keys(this.props.countries).filter(ck => ck != "CA" && ck != "US").sort()
+		if ("CA" in this.props.countries) {country_keys.unshift("CA");}
+		if ("US" in this.props.countries) {country_keys.unshift("US");}
 		if (country_keys.length < 1) {
 			return	<div class="panel-body">
 				<h3>Countries</h3>

@@ -8,6 +8,7 @@ import {NavaidContainerPanel} from "./NavaidPanel"
 import {ChartContainerPanel} from "./ChartPanel"
 import {NoteContainerPanel} from "./NotesPanel"
 
+
 export default class AccordionGroup extends React.Component {
 	constructor() {
 		super()

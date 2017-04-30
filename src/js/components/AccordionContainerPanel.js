@@ -1,16 +1,14 @@
 import React from "react"
 
-// Abstract base classes for accordion panels
-
-
 export class AccordionTitle extends React.Component {
 	common_code(prefix, id, title, selected) {
 		let parent = "#" + id
 		let label = prefix + "Label"
 		let panel = prefix + "Panel"
 		let hashpanel = "#" + panel
+		let cname = "panel-heading"
 		return <div
-				className="panel-heading"
+				className={cname}
 				role="tab"
 				id={label}
 				data-toggle="collapse"

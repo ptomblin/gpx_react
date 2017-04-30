@@ -1,9 +1,14 @@
 body {
 	color: #333;
+	font-size: 15px;
 }
 .panel-default > .panel-heading {
 	background-color: lightblue;
 	cursor: pointer;
+}
+.alert.alert-danger {
+	background-color: #f2dede;
+	color: #a94442;
 }
 .panel-default  .panel-title:before {
 	content: '';
@@ -19,9 +24,15 @@ body {
 	border-color: #0aa transparent transparent;
 }
 
+.row-striped {
+	border: 1px solid #dddddd;
+}
 .row-striped:nth-of-type(odd) {
 	background-color: #efefef;
 }
 .row-striped:nth-of-type(even) {
 	background-color: #ffffff;
+}
+.row-striped > div {
+	border-left: 1px solid #dddddd;
 }

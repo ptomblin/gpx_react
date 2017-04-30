@@ -40,7 +40,8 @@ class GeographicalTitle extends AccordionTitle {
 				this.props.max_lat_val + this.props.max_lat_ns + ", " +
 				this.props.max_long_val + this.props.max_long_ew + ")"
 		}
-		return this.common_code(this.props.prefix, this.props.parent, "Geographic Area", selected_area)
+		return this.common_code(
+			this.props.prefix, this.props.parent, "Geographic Area", selected_area)
 	}
 }
 
@@ -72,41 +73,53 @@ class GeographicalPanel extends React.Component {
 			<p>Select the a geographic area to restrict your selection to.
 			This will also reduce the number of countries or states/provinces
 			that are shown in the Country/State Selection panel.</p>
-			<table class="table table-striped table-bordered">
-              <thead>
-                <tr>
-                  <th>&nbsp;</th>
-                  <th>Minimum<br/>(decimal degrees NN.NNN)</th>
-                  <th>Maximum<br/>(decimal degrees NN.NNN)</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">Latitude</th>
-                  <td>
-                  	<MinimumLatitude />
-                  </td>
-                  <td>
-                  	<MaximumLatitude />
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">Longitude</th>
-                  <td>
-                  	<MinimumLongitude />
-                  </td>
-                  <td>
-                  	<MaximumLongitude />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+			<div>
+				<div class="row row-striped">
+					<div class="col-sm-offset-2 col-sm-5">
+						<strong>Minimum<br/>(decimal degrees NN.NNN)</strong>
+					</div>
+					<div class="col-sm-5">
+						<strong>Maximum<br/>(decimal degrees NN.NNN)</strong>
+					</div>
+				</div>
+				<div class="row row-striped">
+					<div class="col-sm-2"><strong>Latitude</strong></div>
+					<div class="col-sm-5">
+						<MinimumLatitude />
+					</div>
+					<div class="col-sm-5">
+	                  	<MaximumLatitude />
+	                </div>
+	            </div>
+	            <div class="row row-striped">
+					<div class="col-sm-2"><strong>Longitude</strong></div>
+					<div class="col-sm-5">
+						<MinimumLongitude />
+					</div>
+					<div class="col-sm-5">
+	                  	<MaximumLongitude />
+	                </div>
+	            </div>
+	        </div>
             <button type="button" class="btn btn-default btn-xs" name="clearAll" onClick={this.clearAll}>Clear All</button>
 		</div>
 	}
 }
 
-// TODO: Coerce lat/long entries into valid numbers
+function checkVal(prop, max) {
+	if (prop == "") {
+		return ""
+	}
+	if (isNaN(prop)) {
+		return "Not a valid number"
+	}
+	let num = Number(prop)
+	if (num < 0 || num > max) {
+		return "Number out of range - must be between 0 and " + max
+	}
+	return ""
+}
+
 @connect((store) => {
 	return {
 		value: store.session.min_latitude_val,
@@ -129,14 +142,16 @@ class MinimumLatitude extends React.Component {
 	}
 
 	render() {
-		return <div class="row">
-	  		<div class="col-sm-8">
+		let msg = checkVal(this.props.value, 90)
+		return <div className={msg.length > 0 ? "row has-error" : "row"}>
+	  		<div className="col-sm-8">
 	  			<input
 	  				type="text"
 	  				class="form-control"
 	  				placeholder="Minimum Latitude"
 	  				value={this.props.value}
-	  				onInput={this.handleInputChange}/>
+	  				onInput={this.handleInputChange}
+	  			/>
 	  		</div>
 	  		<div class="col-sm-4">
 	  			<select class="form-control" value={this.props.ns} onChange={this.handleSelectChange}>
@@ -144,6 +159,9 @@ class MinimumLatitude extends React.Component {
 	  				<option value="S">South</option>
 	  			</select>
 	  		</div>
+	  		{msg.length > 0 &&
+	  			<div class="col-sm-12 help-block">{msg}</div>
+	  		}
 	  	</div>
 	}
 }
@@ -170,7 +188,8 @@ class MaximumLatitude extends React.Component {
 	}
 
 	render() {
-		return <div class="row">
+		let msg = checkVal(this.props.value, 90)
+		return <div className={msg.length > 0 ? "row has-error" : "row"}>
 	  		<div class="col-sm-8">
 	  			<input
 	  				type="text"
@@ -185,6 +204,9 @@ class MaximumLatitude extends React.Component {
 	  				<option value="S">South</option>
 	  			</select>
 	  		</div>
+	  		{msg.length > 0 &&
+	  			<div class="col-sm-12 help-block">{msg}</div>
+	  		}
 	  	</div>
 	}
 }
@@ -212,7 +234,8 @@ class MinimumLongitude extends React.Component {
 	}
 
 	render() {
-		return <div class="row">
+		let msg = checkVal(this.props.value, 180)
+		return <div className={msg.length > 0 ? "row has-error" : "row"}>
 	  		<div class="col-sm-8">
 	  			<input
 	  				type="text"
@@ -227,6 +250,9 @@ class MinimumLongitude extends React.Component {
 	  				<option value="W">West</option>
 	  			</select>
 	  		</div>
+	  		{msg.length > 0 &&
+	  			<div class="col-sm-12 help-block">{msg}</div>
+	  		}
 	  	</div>
 	}
 }
@@ -253,7 +279,8 @@ class MaximumLongitude extends React.Component {
 	}
 
 	render() {
-		return <div class="row">
+		let msg = checkVal(this.props.value, 180)
+		return <div className={msg.length > 0 ? "row has-error" : "row"}>
 	  		<div class="col-sm-8">
 	  			<input
 	  				type="text"
@@ -268,6 +295,9 @@ class MaximumLongitude extends React.Component {
 	  				<option value="W">West</option>
 	  			</select>
 	  		</div>
+	  		{msg.length > 0 &&
+	  			<div class="col-sm-12 help-block">{msg}</div>
+	  		}
 	  	</div>
 	}
 }

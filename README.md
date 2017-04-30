@@ -7,6 +7,7 @@ reasons to choose React.
 ## Steps
  * Make a prototype of the UI in straight html (Done)
  * Replace parts of the front end code with React (Done)
+ * Add some validation and error checking (Done)
  * Write a backend to make it live
  * Replace the existing website
 
