@@ -43,21 +43,7 @@
     <!-- Dynamic part using React -->
     <div id="app"></div>
   </div>
-  <script
-  src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-  integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
-  crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="client.min.js"></script>
-  <script>
-    // This is just until it's all react-ified (or maybe not - trying to do this in React is proving to be difficult)
-    $('.panel').on("show.bs.collapse", function() {
-      $(this).addClass('active');
-    });
-    $('.panel').on('hidden.bs.collapse', function() {
-      $(this).removeClass('active');
-    });
-  </script>
 </body>
 
 </html>

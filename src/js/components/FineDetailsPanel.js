@@ -1,22 +1,8 @@
-import {AccordionTitle, AccordionPanel} from "./AccordionContainerPanel"
+import {AccordionContainerPanel} from "./AccordionContainerPanel"
 import React from "react"
 import {connect} from "react-redux"
 
 import {updateFineDetails, resetFineDetails} from "../actions/sessionActions"
-
-export class FineDetailsContainerPanel extends React.Component {
-	constructor(props) {
-		super(props)
-		this.prefix = "fineDetails"
-	}
-	render() {
-		return <div
-				className="panel panel-default">
-			<FineDetailsTitle prefix={this.prefix} parent={this.props.parent}/>
-			<AccordionPanel prefix={this.prefix} subpanel={FineDetailsPanel} />
-		</div>
-	}
-}
 
 @connect((store) => {
 	return {
@@ -27,8 +13,14 @@ export class FineDetailsContainerPanel extends React.Component {
 		runway_lengths_in: store.session.runway_lengths_in,
 	}
 })
-export class FineDetailsTitle extends AccordionTitle {
-	render() {
+export class FineDetailsContainerPanel extends AccordionContainerPanel {
+	constructor(props) {
+		super(props)
+		this.prefix = "fineDetails"
+		this.resetAll = this.resetAll.bind(this)
+	}
+
+	getTitle() {
 		let selected_fine = "None"
 		let titles = []
 		if (this.props.use_public) {
@@ -53,24 +45,18 @@ export class FineDetailsTitle extends AccordionTitle {
 		if (titles.length > 0) {
 			selected_fine = titles.join(", ")
 		}
-		return this.common_code(
-			this.props.prefix, this.props.parent, "Fine Details Selection", selected_fine)
+		return "Fine Details : " + selected_fine
 	}
-}
 
-@connect((store) => {
-	return {
+	getPrefix() {
+		return "fineDetails"
 	}
-})
-export class FineDetailsPanel extends React.Component {
-	constructor(props) {
-		super(props)
-		this.resetAll = this.resetAll.bind(this)
-	}
+
 	resetAll() {
 		this.props.dispatch(resetFineDetails())
 	}
-	render() {
+
+	getSubPanel() {
 		return <div class="panel-body">
 			<h3>Fine Details</h3>
 			<table class="table table-striped table-bordered">

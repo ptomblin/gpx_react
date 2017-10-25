@@ -1,52 +1,38 @@
-import {AccordionTitle, AccordionPanel} from "./AccordionContainerPanel"
+import {AccordionContainerPanel} from "./AccordionContainerPanel"
 import React from "react"
 import {connect} from "react-redux"
 
 import {updateNavaids, resetNavaids, addNavaid, removeNavaid} from "../actions/sessionActions"
 
-export class NavaidContainerPanel extends React.Component {
-	constructor(props) {
-		super(props)
-		this.prefix = "navaid"
-	}
-	render() {
-		return <div
-				className="panel panel-default">
-			<NavaidTitle prefix={this.prefix} parent={this.props.parent}/>
-			<AccordionPanel prefix={this.prefix} subpanel={NavaidPanel} />
-		</div>
-	}
-}
-
 @connect((store) => {
 	return {
 		selected_navaids: store.session.selected_navaids,
-	}
-})
-class NavaidTitle extends AccordionTitle {
-	render() {
-		let selected_navaids = "No Navaid Types"
-		if (this.props.selected_navaids.size > 0) {
-			selected_navaids = [...this.props.selected_navaids].sort().join(", ")
-		}
-		return this.common_code(this.props.prefix, this.props.parent, "Navaid Types:", selected_navaids)
-	}
-}
-
-@connect((store) => {
-	return {
 		navaids: store.session.navaid_types,
 	}
 })
-class NavaidPanel extends React.Component {
+export class NavaidContainerPanel extends AccordionContainerPanel {
 	constructor(props) {
 		super(props)
 		this.resetToDefaults = this.resetToDefaults.bind(this)
 	}
+
+	getTitle() {
+		let selected_navaids = "No Navaid Types"
+		if (this.props.selected_navaids.size > 0) {
+			selected_navaids = [...this.props.selected_navaids].sort().join(", ")
+		}
+		return "Navaid Types : " + selected_navaids
+	}
+
+	getPrefix() {
+		return "navaid"
+	}
+
 	resetToDefaults() {
 		this.props.dispatch(resetNavaids())
 	}
-	render() {
+
+	getSubPanel() {
 		let navaids = []
 		let tuple = []
 		this.props.navaids.forEach((a, i) => {

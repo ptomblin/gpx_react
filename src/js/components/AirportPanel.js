@@ -1,52 +1,38 @@
-import {AccordionTitle, AccordionPanel} from "./AccordionContainerPanel"
+import {AccordionContainerPanel} from "./AccordionContainerPanel"
 import React from "react"
 import {connect} from "react-redux"
 
 import {updateAirports, resetAirports, addAirport, removeAirport} from "../actions/sessionActions"
 
-export class AirportContainerPanel extends React.Component {
-	constructor(props) {
-		super(props)
-		this.prefix = "airport"
-	}
-	render() {
-		return <div
-				className="panel panel-default">
-			<AirportTitle prefix={this.prefix} parent={this.props.parent}/>
-			<AccordionPanel prefix={this.prefix} subpanel={AirportPanel} />
-		</div>
-	}
-}
-
 @connect((store) => {
 	return {
 		selected_airports: store.session.selected_airports,
-	}
-})
-class AirportTitle extends AccordionTitle {
-	render() {
-		let selected_airports = "No Airport Types"
-		if (this.props.selected_airports.size > 0) {
-			selected_airports = [...this.props.selected_airports].sort().join(", ")
-		}
-		return this.common_code(this.props.prefix, this.props.parent, "Airport Types:", selected_airports)
-	}
-}
-
-@connect((store) => {
-	return {
 		airports: store.session.airport_types,
 	}
 })
-class AirportPanel extends React.Component {
+export class AirportContainerPanel extends AccordionContainerPanel {
 	constructor(props) {
 		super(props)
 		this.resetToDefaults = this.resetToDefaults.bind(this)
 	}
+
+	getTitle() {
+		let selected_airports = "No Airport Types"
+		if (this.props.selected_airports.size > 0) {
+			selected_airports = [...this.props.selected_airports].sort().join(", ")
+		}
+		return "Airport Types : " + selected_airports
+	}
+
+	getPrefix() {
+		return "airport"
+	}
+
 	resetToDefaults() {
 		this.props.dispatch(resetAirports())
 	}
-	render() {
+
+	getSubPanel() {
 		let airports = []
 		let tuple = []
 		this.props.airports.forEach((a, i) => {

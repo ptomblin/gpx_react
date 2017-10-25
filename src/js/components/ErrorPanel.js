@@ -6,7 +6,6 @@ export default class ErrorPanel extends React.Component {
 	}
 	render() {
 		const errors = this.props.errors.map((err, i) => <div key={i} className="alert alert-danger" role="alert">{err}</div>)
-		console.log("errors = " + errors)
 		return <div>
 			{errors}
 		</div>

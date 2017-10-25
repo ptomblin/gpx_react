@@ -1,37 +1,90 @@
-import React from "react"
+import React from 'react'
 
-export class AccordionTitle extends React.Component {
-	common_code(prefix, id, title, selected) {
-		let parent = "#" + id
-		let label = prefix + "Label"
-		let panel = prefix + "Panel"
-		let hashpanel = "#" + panel
-		let cname = "panel-heading"
-		return <div
-				className={cname}
-				role="tab"
-				id={label}
-				data-toggle="collapse"
-				data-parent={parent}
-				data-target={hashpanel}
-				aria-expanded="true"
-				aria-controls={panel}>
-			<h4 class="panel-title">
-				<a role="button">{title}: {selected}</a>
-			</h4>
-		</div>
+export class AccordionContainerPanel extends React.Component {
+
+	constructor(props) {
+		super(props)
+		this.state = {
+			collapsed: true,
+			collapsing: false
+		}
+
+		this.toggleAccordion = this.toggleAccordion.bind(this)
+		this.endTransition = this.endTransition.bind(this)
+		this.getSubPanel = this.getSubPanel.bind(this)
 	}
-}
 
-export class AccordionPanel extends React.Component {
+	toggleAccordion() {
+		// I was trying to do some fancy collapsing thing here, but it's not working so put it aside for now.
+		this.setState(
+			{
+				collapsing: false, // true
+				collapsed: !this.state.collapsed
+			}
+
+		)
+	}
+	endTransition() {
+		this.setState(
+			{
+				collapsing: false
+			}
+		)
+	}
+
+	/*
+	 * Abstract Methods
+	 */
+	getTitle() {
+		throw new Error("Unimplemented abstract method getTitle")
+	}
+
+	getPrefix() {
+		throw new Error("Unimplemented abstract method getPrefix")
+	}
+	getSubPanel() {
+		throw new Error("Unimplemented abstract method getSubPanel")
+	}
+
+
+	getLabel() {
+		return this.getPrefix() + "Label"
+	}
+	getPanel() {
+		return this.getPrefix() + "Panel"
+	}
+
 	render() {
-		const prefix = this.props.prefix
-		let id = prefix + "Panel"
-		let label = prefix + "Label"
-		const title = this.props.title
-		const SubPanel = this.props.subpanel
-		return <div id={id} className="panel-collapse collapse" role="tabpanel" aria-labelledby={label}>
+		const SubPanel = this.getSubPanel
+		let classes = "panel-collapse "
+		if (this.state.collapsing) {
+			classes += "collapsing "
+		}
+		if (this.state.collapsed) {
+			classes += "collapse"
+		} else {
+			classes += "collapse in"
+		}
+		console.log("render, collapsing = " + this.state.collapsing + ", collapsed = " + this.state.collapsed)
+		console.log("classes = " + classes)
+		return <div className="panel panel-default">
+			<div
+				className={'panel-heading ' + (this.state.collapsed ? 'collapsed' : '')}
+				role="tab"
+				id={this.getLabel()}
+				onClick={this.toggleAccordion}>
+					<h4 class="panel-title">
+						{this.getTitle()}
+					</h4>
+			</div>
+			<div
+				id={this.getPrefix()}
+				className={'panel-collapse ' + classes}
+				onTransitionEnd={this.endTransition}
+				role="tabpanel">
 				<SubPanel />
+			</div>
 		</div>
 	}
+
 }

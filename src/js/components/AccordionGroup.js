@@ -18,12 +18,12 @@ export default class AccordionGroup extends React.Component {
 	render() {
 		return <div className="panel-group" id={this.id} role="tabllist" aria-multiselectable="false">
 			<GeographicalContainerPanel parent={this.id}/>
-			<CspContainerPanel parent={this.id}/>
-			<FineDetailsContainerPanel parent={this.id}/>
-			<AirportContainerPanel parent={this.id}/>
-			<NavaidContainerPanel parent={this.id}/>
-			<ChartContainerPanel parent={this.id}/>
-			<NoteContainerPanel parent={this.id}/>
+			<CspContainerPanel parent={this.id} />
+			<FineDetailsContainerPanel parent={this.id} />
+			<AirportContainerPanel parent={this.id} />
+			<NavaidContainerPanel parent={this.id} />
+			<ChartContainerPanel parent={this.id} />
+			<NoteContainerPanel parent={this.id} />
 		</div>
 	}
 }

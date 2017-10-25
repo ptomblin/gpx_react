@@ -25,7 +25,14 @@
     "webpack": "latest",
     "webpack-dev-server": "latest"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "~4.8.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1"
+  },
   "scripts": {
     "dev": "webpack-dev-server --content-base src --inline --hot"
   },

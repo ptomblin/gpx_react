@@ -1,4 +1,4 @@
-import {AccordionTitle, AccordionPanel} from "./AccordionContainerPanel"
+import {AccordionContainerPanel} from "./AccordionContainerPanel"
 import React from "react"
 import {connect} from "react-redux"
 
@@ -7,20 +7,6 @@ import {clearCountries, addCountry, removeCountry,
 		clearProvinces, addProvince, removeProvince
 } from "../actions/sessionActions"
 
-export class CspContainerPanel extends React.Component {
-	constructor(props) {
-		super(props)
-		this.prefix = "csp"
-	}
-	render() {
-		return <div
-				className="panel panel-default">
-			<CspTitle prefix={this.prefix} parent={this.props.parent}/>
-			<AccordionPanel prefix={this.prefix} subpanel={CspPanel} />
-		</div>
-	}
-}
-
 @connect((store) => {
 	return {
 		selected_countries: store.session.selected_countries,
@@ -28,8 +14,13 @@ export class CspContainerPanel extends React.Component {
 		selected_provinces: store.session.selected_provinces,
 	}
 })
-class CspTitle extends AccordionTitle {
-	render() {
+export class CspContainerPanel extends AccordionContainerPanel {
+	constructor(props) {
+		super(props)
+		this.clearAll = this.clearAll.bind(this)
+	}
+
+	getTitle() {
 		let selected_countries = "All Countries"
 		if (this.props.selected_countries.size > 0) {
 			selected_countries = "Countries: " + [...this.props.selected_countries].sort().join(", ")
@@ -43,32 +34,25 @@ class CspTitle extends AccordionTitle {
 			selected_provinces = ", Provinces: " + [...this.props.selected_provinces].sort().join(", ")
 		}
 		let selection = selected_countries + selected_states + selected_provinces
-		return this.common_code(this.props.prefix, this.props.parent, "Country/State/Province Selection", selection)
+		return "Country/State/Province Selection : " + selection
 	}
-}
+	getPrefix() {
+		return "Csp"
+	}
 
-@connect((store) => {
-	return {
-		sel_countries: store.session.selected_countries,
-	}
-})
-class CspPanel extends React.Component {
-	constructor(props) {
-		super(props)
-		this.clearAll = this.clearAll.bind(this)
-	}
 	clearAll() {
 		this.props.dispatch(clearCountries())
 		this.props.dispatch(clearStates())
 		this.props.dispatch(clearProvinces())
 	}
-	render() {
+
+	getSubPanel() {
 		return <div>
 			<CountryPanel />
-			{this.props.sel_countries.has('US') &&
+			{this.props.selected_countries.has('US') &&
 				<StatePanel />
 			}
-			{this.props.sel_countries.has('CA') &&
+			{this.props.selected_countries.has('CA') &&
 				<ProvincePanel />
 			}
 			<button type="button" class="btn btn-default btn-xs" name="clearAll" onClick={this.clearAll}>Clear All</button>
@@ -416,7 +400,10 @@ class ProvincePanel extends React.Component {
 		const trs = provinces.map((p, i) => <tr key={i}>{p}</tr>)
 		return	<div class="panel-body">
 			<h3>Provinces</h3>
-         	<p>Some Canadian waypoints do not have any province associated with them, because they are in strange places in the gaps between provincial boundaries or they're over wayt. If you want these Canadian waypoints, be sure and either leave all the province selections unchecked or also check "No Province"</p>
+         	<p>Some Canadian waypoints do not have any province associated with them, because they are in strange
+				 places in the gaps between provincial boundaries or they're over water. If you want these Canadian
+				 waypoints, be sure and either leave all the province selections unchecked or also check
+				 "No Province"</p>
           	<table class="table table-striped table-bordered">
             	<tbody>
               	{trs}

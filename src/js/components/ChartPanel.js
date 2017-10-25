@@ -1,22 +1,8 @@
-import {AccordionTitle, AccordionPanel} from "./AccordionContainerPanel"
+import {AccordionContainerPanel} from "./AccordionContainerPanel"
 import React from "react"
 import {connect} from "react-redux"
 
 import {updateMaps, resetMaps, addMap, removeMap} from "../actions/sessionActions"
-
-export class ChartContainerPanel extends React.Component {
-	constructor(props) {
-		super(props)
-		this.prefix = "map"
-	}
-	render() {
-		return <div
-				className="panel panel-default">
-			<ChartTitle prefix={this.prefix} parent={this.props.parent}/>
-			<AccordionPanel prefix={this.prefix} subpanel={ChartPanel} />
-		</div>
-	}
-}
 
 @connect((store) => {
 	return {
@@ -24,44 +10,42 @@ export class ChartContainerPanel extends React.Component {
 		map_types: store.session.map_types,
 	}
 })
-class ChartTitle extends AccordionTitle {
-	render() {
-		let selected_maps = "No Chart Types"
-		if (this.props.selected_charts > 0) {
-			selected_maps = this.props.map_types.filter(mt => (mt.code & this.props.selected_charts) != 0).map(mt => mt.name).join(", ")
-		}
-		console.log("selected_maps = " + selected_maps)
-		return this.common_code(this.props.prefix, this.props.parent, "Fixes in Charts", selected_maps)
-	}
-}
-
-@connect((store) => {
-	return {
-		maps: store.session.map_types,
-	}
-})
-class ChartPanel extends React.Component {
+export class ChartContainerPanel extends AccordionContainerPanel {
 	constructor(props) {
 		super(props)
 		this.resetToDefaults = this.resetToDefaults.bind(this)
 	}
+
+	getTitle() {
+		let selected_maps = "No Chart Types"
+		if (this.props.selected_charts > 0) {
+			selected_maps = this.props.map_types.filter(mt => (mt.code & this.props.selected_charts) != 0).map(mt => mt.name).join(", ")
+		}
+		return "Fixes in Charts : " + selected_maps
+	}
+
+	getPrefix() {
+		return "map"
+	}
+
 	resetToDefaults() {
 		this.props.dispatch(resetMaps())
 	}
-	render() {
-		let maps = []
+
+	getSubPanel() {
+		let map_types = []
 		let tuple = []
-		this.props.maps.forEach((a, i) => {
+		this.props.map_types.forEach((a, i) => {
 			tuple.push(<ChartCheck key={i} map={a} />)
 			if (tuple.length > 2) {
-				maps.push(tuple)
+				map_types.push(tuple)
 				tuple = []
 			}
 		})
 		if (tuple.length > 0) {
-			maps.push(tuple)
+			map_types.push(tuple)
 		}
-		const trs = maps.map((c, i) => <tr key={i}>{c}</tr>)
+		const trs = map_types.map((c, i) => <tr key={i}>{c}</tr>)
 		return <div class="panel-body">
             <h3>Fixes in Charts</h3>
             <p>The various datasources I use aren't consistent about the "types" they use for navigational fixes, so it's better to

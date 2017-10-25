@@ -1,22 +1,8 @@
-import {AccordionTitle, AccordionPanel} from "./AccordionContainerPanel"
+import {AccordionContainerPanel} from "./AccordionContainerPanel"
 import React from "react"
 import {connect} from "react-redux"
 
 import {updateLatLong} from "../actions/sessionActions"
-
-export class GeographicalContainerPanel extends React.Component {
-	constructor(props) {
-		super(props)
-		this.prefix = "geographicArea"
-	}
-	render() {
-		return <div
-				className="panel panel-default">
-			<GeographicalTitle prefix={this.prefix} parent={this.props.parent}/>
-			<AccordionPanel prefix={this.prefix} subpanel={GeographicalPanel} />
-		</div>
-	}
-}
 
 @connect((store) => {
 	return {
@@ -30,8 +16,13 @@ export class GeographicalContainerPanel extends React.Component {
 		max_long_ew: store.session.max_longitude_ew,
 	}
 })
-class GeographicalTitle extends AccordionTitle {
-	render() {
+export class GeographicalContainerPanel extends AccordionContainerPanel {
+	constructor(props) {
+		super(props)
+		this.clearAll = this.clearAll.bind(this)
+	}
+
+	getTitle() {
 		let selected_area = "None"
 		if (this.props.min_lat_val || this.props.max_lat_val ||
 			this.props.min_long_val || this.props.max_long_val) {
@@ -40,20 +31,13 @@ class GeographicalTitle extends AccordionTitle {
 				this.props.max_lat_val + this.props.max_lat_ns + ", " +
 				this.props.max_long_val + this.props.max_long_ew + ")"
 		}
-		return this.common_code(
-			this.props.prefix, this.props.parent, "Geographic Area", selected_area)
+		return "Geographic Area : " + selected_area
 	}
-}
 
-@connect((store) => {
-	return {
+	getPrefix() {
+		return "geographicArea"
 	}
-})
-class GeographicalPanel extends React.Component {
-	constructor(props) {
-		super(props)
-		this.clearAll = this.clearAll.bind(this)
-	}
+
 	clearAll() {
 		this.props.dispatch(updateLatLong({
 			min_latitude_ns: 'N',
@@ -67,7 +51,8 @@ class GeographicalPanel extends React.Component {
 			})
 		)
 	}
-	render() {
+
+	getSubPanel() {
 		return <div class="panel-body">
 			<h3>Geographic Area</h3>
 			<p>Select the a geographic area to restrict your selection to.

@@ -1,4 +1,4 @@
-import {AccordionTitle, AccordionPanel} from "./AccordionContainerPanel"
+import {AccordionContainerPanel} from "./AccordionContainerPanel"
 import React from "react"
 import {connect} from "react-redux"
 
@@ -13,48 +13,34 @@ const all_notes = [
 	{ name: 'Traffic Pattern Altitude (TPA)', value: 'tpa' },
 ]
 
-export class NoteContainerPanel extends React.Component {
-	constructor(props) {
-		super(props)
-		this.prefix = "note"
-	}
-	render() {
-		return <div
-				className="panel panel-default">
-			<NoteTitle prefix={this.prefix} parent={this.props.parent}/>
-			<AccordionPanel prefix={this.prefix} subpanel={NotePanel} />
-		</div>
-	}
-}
-
 @connect((store) => {
 	return {
 		selected_notes: store.session.selected_notes,
 	}
 })
-class NoteTitle extends AccordionTitle {
-	render() {
-		let selected_notes = "No Notes Fields"
-		if (this.props.selected_notes.size > 0) {
-			selected_notes = all_notes.filter(n => this.props.selected_notes.has(n.value)).map(n => n.name).join(", ")
-		}
-		return this.common_code(this.props.prefix, this.props.parent, "Notes Fields:", selected_notes)
-	}
-}
-
-@connect((store) => {
-	return {
-	}
-})
-class NotePanel extends React.Component {
+export class NoteContainerPanel extends AccordionContainerPanel {
 	constructor(props) {
 		super(props)
 		this.resetToDefaults = this.resetToDefaults.bind(this)
 	}
+
+	getTitle() {
+		let selected_notes = "No Notes Fields"
+		if (this.props.selected_notes.size > 0) {
+			selected_notes = all_notes.filter(n => this.props.selected_notes.has(n.value)).map(n => n.name).join(", ")
+		}
+		return "Notes Fields : " + selected_notes
+	}
+
+	getPrefix() {
+		return "note"
+	}
+
 	resetToDefaults() {
 		this.props.dispatch(resetNotes())
 	}
-	render() {
+
+	getSubPanel() {
 		let notes = []
 		let tuple = []
 		all_notes.forEach((n, i) => {
